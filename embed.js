@@ -12,10 +12,16 @@
                     console.error('API key is required to initialize the widget');
                     return;
                 }
-                window.createVueWidget('widget-container', { apiKey });
+                const initWidget = () => {
+                    if (typeof window.createVueWidget === 'function') {
+                        window.createVueWidget('widget-container', { apiKey });
+                    } else {
+                        setTimeout(initWidget, 50);
+                    }
+                }
             }
             document.body.appendChild(scriptTag);
         }
         document.addEventListener('DOMContentLoaded', loadWidget);
     }
-)()
+)();
